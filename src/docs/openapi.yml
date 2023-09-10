@@ -1,0 +1,74 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: hw2docker
+servers:
+  - url: https://localhost
+    description: Docker homework
+tags:
+  - name: hw2docker
+    description: ДЗ по докеру
+paths:
+  /health:
+    get:
+      summary: Проверка health
+      operationId: health
+      responses:
+        "200":
+          description: Успешная проверка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResHealth"
+        "400":
+          description: Неверный формат запроса
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResErr"
+        "408":
+          description: Время выполнения запроса истекло
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResErr"
+        "415":
+          description: Неподдерживаемый тип данных
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResErr"
+        "422":
+          description: Данные запроса не прошли ФЛК
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResErr"
+        "500":
+          description: Внутренняя ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResErr"
+        "503":
+          description: Сервис недоступен
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResErr"
+components:
+  schemas:
+    ResHealth:
+      type: object
+      properties:
+        status:
+          maxLength: 10
+          type: string
+          description: health
+    ResErr:
+      type: object
+      properties:
+        error:
+          maxLength: 200
+          type: string
+          description: Сообщение об ошибке
